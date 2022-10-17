@@ -15,6 +15,10 @@ public class GameField extends JPanel implements ActionListener {
     private Image dot;
     private Image player;
     private Timer timer;
+    boolean right;
+    boolean left;
+    boolean up;
+    boolean down;
     public GameField() {
         generateNumb();
         loadImage();
@@ -69,6 +73,7 @@ public class GameField extends JPanel implements ActionListener {
     }
     public void actionPerformed(ActionEvent e) {
         repaint();
+        move();
     }
 
     public void paint(Graphics g) { //Закраска объектов по значениям
@@ -87,44 +92,73 @@ public class GameField extends JPanel implements ActionListener {
                 }
             }
         }
-
     }
-    private int offset;
+    public void move(){
+        int offset;
+        if (left){
+            offset = Xuz - 1;
+            if (panel[offset][Yuz].equals("Null")) {
+                panel[Xuz][Yuz] = "Null";
+                panel[offset][Yuz] = "Player";
+                Xuz = offset;
+            }
+        }
+        if (right){
+            offset = Xuz + 1;
+            if (panel[offset][Yuz].equals("Null")) {
+                panel[Xuz][Yuz] = "Null";
+                panel[offset][Yuz] = "Player";
+                Xuz = offset;
+            }
+        }
+        if (up){
+            offset = Yuz + 1;
+            if (panel[Xuz][offset].equals("Null")) {
+                panel[Xuz][Yuz] = "Null";
+                panel[Xuz][offset] = "Player";
+                Yuz = offset;
+            }
+        }
+        if (down){
+            offset = Yuz - 1;
+            if (panel[Xuz][offset].equals("Null")) {
+                panel[Xuz][Yuz] = "Null";
+                panel[Xuz][offset] = "Player";
+                Yuz = offset;
+            }
+        }
+    }
     class Controls extends KeyAdapter { //Управление
         public void keyPressed(KeyEvent e) {
             super.keyPressed(e);
             int key = e.getKeyCode();
             if (key == KeyEvent.VK_LEFT) {
                 System.out.println("Влево");
-                if (panel[Xuz - 1][Yuz].equals("Null")) {
-                    panel[Xuz][Yuz] = "Null";
-                    panel[Xuz - 1][Yuz] = "Player";
-                    Xuz -= 1;
-                }
+                left = true;
+                right = false;
+                up = false;
+                down = false;
             }
             if (key == KeyEvent.VK_DOWN) {
                 System.out.println("Влево");
-                if (panel[Xuz][Yuz - 1].equals("Null")) {
-                    panel[Xuz][Yuz] = "Null";
-                    panel[Xuz][Yuz - 1] = "Player";
-                    Yuz -= 1;
-                }
+                left = false;
+                right = false;
+                up = false;
+                down = true;
             }
             if (key == KeyEvent.VK_UP) {
                 System.out.println("Влево");
-                if (panel[Xuz][Yuz + 1].equals("Null")) {
-                    panel[Xuz][Yuz] = "Null";
-                    panel[Xuz][Yuz + 1] = "Player";
-                    Yuz += 1;
-                }
+                left = false;
+                right = false;
+                up = true;
+                down = false;
             }
             if (key == KeyEvent.VK_RIGHT) {
                 System.out.println("Влево");
-                if (panel[Xuz + 1][Yuz].equals("Null")) {
-                    panel[Xuz][Yuz] = "Null";
-                    panel[Xuz + 1][Yuz] = "Player";
-                    Xuz += 1;
-                }
+                left = false;
+                right = true;
+                up = false;
+                down = false;
             }
         }
     }
