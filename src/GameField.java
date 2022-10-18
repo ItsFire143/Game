@@ -19,17 +19,19 @@ public class GameField extends JPanel implements ActionListener {
     boolean left;
     boolean up;
     boolean down;
+    boolean p;
     public GameField() {
         generateNumb();
         loadImage();
         timer();
         addKeyListener(new Controls());
+        setFocusable(true);
     }
 
     public void timer() {
-        timer = new Timer(1000 / 60, this);
+        timer = new Timer(1000/60, this);
         timer.setRepeats(true);
-        timer.start();
+       if (p = true) {timer.start();}
     }
     static String[][] panel = new String[allDots][allDots];
 
@@ -73,7 +75,7 @@ public class GameField extends JPanel implements ActionListener {
     }
     public void actionPerformed(ActionEvent e) {
         repaint();
-        move();
+        //move();
     }
 
     public void paint(Graphics g) { //Закраска объектов по значениям
@@ -96,8 +98,9 @@ public class GameField extends JPanel implements ActionListener {
     public void move(){
         int offset;
         if (left){
+            System.out.println("Влево");
             offset = Xuz - 1;
-            if (panel[offset][Yuz].equals("Null")) {
+            if (offset<10 && -1<offset && panel[offset][Yuz].equals("Null")) {
                 panel[Xuz][Yuz] = "Null";
                 panel[offset][Yuz] = "Player";
                 Xuz = offset;
@@ -105,23 +108,25 @@ public class GameField extends JPanel implements ActionListener {
         }
         if (right){
             offset = Xuz + 1;
-            if (panel[offset][Yuz].equals("Null")) {
+            if (offset<10 && -1<offset && panel[offset][Yuz].equals("Null")) {
                 panel[Xuz][Yuz] = "Null";
                 panel[offset][Yuz] = "Player";
                 Xuz = offset;
             }
         }
         if (up){
-            offset = Yuz + 1;
-            if (panel[Xuz][offset].equals("Null")) {
+            offset = Yuz - 1;
+            if (offset<10 && -1<offset && panel[Xuz][offset].equals("Null")) {
+                p = true;
                 panel[Xuz][Yuz] = "Null";
                 panel[Xuz][offset] = "Player";
                 Yuz = offset;
             }
         }
         if (down){
-            offset = Yuz - 1;
-            if (panel[Xuz][offset].equals("Null")) {
+            offset = Yuz + 1;
+            if (offset<10 && -1<offset && panel[Xuz][offset].equals("Null")) {
+                p = true;
                 panel[Xuz][Yuz] = "Null";
                 panel[Xuz][offset] = "Player";
                 Yuz = offset;
@@ -129,36 +134,41 @@ public class GameField extends JPanel implements ActionListener {
         }
     }
     class Controls extends KeyAdapter { //Управление
+        @Override
         public void keyPressed(KeyEvent e) {
             super.keyPressed(e);
             int key = e.getKeyCode();
             if (key == KeyEvent.VK_LEFT) {
                 System.out.println("Влево");
                 left = true;
-                right = false;
                 up = false;
                 down = false;
+                right = false;
+                move();
             }
             if (key == KeyEvent.VK_DOWN) {
-                System.out.println("Влево");
-                left = false;
-                right = false;
-                up = false;
+                System.out.println("Вниз");
                 down = true;
+                right = false;
+                left = false;
+                up = false;
+                move();
             }
             if (key == KeyEvent.VK_UP) {
-                System.out.println("Влево");
+                System.out.println("Вверх");
                 left = false;
-                right = false;
                 up = true;
+                right = false;
                 down = false;
+                move();
             }
             if (key == KeyEvent.VK_RIGHT) {
-                System.out.println("Влево");
-                left = false;
+                System.out.println("Вправо");
                 right = true;
                 up = false;
                 down = false;
+                left = false;
+                move();
             }
         }
     }
