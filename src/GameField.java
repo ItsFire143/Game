@@ -20,6 +20,7 @@ public class GameField extends JPanel implements ActionListener {
     boolean up;
     boolean down;
     boolean p;
+    int points = 0;
     public GameField() {
         generateNumb();
         loadImage();
@@ -75,7 +76,6 @@ public class GameField extends JPanel implements ActionListener {
     }
     public void actionPerformed(ActionEvent e) {
         repaint();
-        //move();
     }
 
     public void paint(Graphics g) { //Закраска объектов по значениям
@@ -95,12 +95,19 @@ public class GameField extends JPanel implements ActionListener {
             }
         }
     }
-    public void move(){
+    public void move(){ // передвижение
         int offset;
         if (left){
-            System.out.println("Влево");
+            //System.out.println("Влево");
             offset = Xuz - 1;
-            if (offset<10 && -1<offset && panel[offset][Yuz].equals("Null")) {
+            if (offset<10 && -1<offset && panel [offset][Yuz].equals("Point")){ //Проверка монет
+                panel[Xuz][Yuz] = "Null";
+                panel[offset][Yuz] = "Player";
+                Xuz = offset;
+                points += 1;
+                System.out.println("Монеток: " + points);
+            }
+            else if (offset<10 && -1<offset && panel[offset][Yuz].equals("Null")) {
                 panel[Xuz][Yuz] = "Null";
                 panel[offset][Yuz] = "Player";
                 Xuz = offset;
@@ -108,7 +115,14 @@ public class GameField extends JPanel implements ActionListener {
         }
         if (right){
             offset = Xuz + 1;
-            if (offset<10 && -1<offset && panel[offset][Yuz].equals("Null")) {
+            if (offset<10 && -1<offset && panel [offset][Yuz].equals("Point")){
+                panel[Xuz][Yuz] = "Null";
+                panel[offset][Yuz] = "Player";
+                Xuz = offset;
+                points += 1;
+                System.out.println("Монеток: " + points);
+            }
+            else if (offset<10 && -1<offset && panel[offset][Yuz].equals("Null")) {
                 panel[Xuz][Yuz] = "Null";
                 panel[offset][Yuz] = "Player";
                 Xuz = offset;
@@ -116,7 +130,14 @@ public class GameField extends JPanel implements ActionListener {
         }
         if (up){
             offset = Yuz - 1;
-            if (offset<10 && -1<offset && panel[Xuz][offset].equals("Null")) {
+            if (offset<10 && -1<offset && panel [Xuz][offset].equals("Point")){
+                panel[Xuz][Yuz] = "Null";
+                panel[Xuz][offset] = "Player";
+                Yuz = offset;
+                points += 1;
+                System.out.println("Монеток: " + points);
+            }
+            else if (offset<10 && -1<offset && panel[Xuz][offset].equals("Null")) {
                 p = true;
                 panel[Xuz][Yuz] = "Null";
                 panel[Xuz][offset] = "Player";
@@ -125,7 +146,14 @@ public class GameField extends JPanel implements ActionListener {
         }
         if (down){
             offset = Yuz + 1;
-            if (offset<10 && -1<offset && panel[Xuz][offset].equals("Null")) {
+            if (offset<10 && -1<offset && panel [Xuz][offset].equals("Point")){
+                panel[Xuz][Yuz] = "Null";
+                panel[Xuz][offset] = "Player";
+                Yuz = offset;
+                points += 1;
+                System.out.println("Монеток: " + points);
+            }
+            else if (offset<10 && -1<offset && panel[Xuz][offset].equals("Null")) {
                 p = true;
                 panel[Xuz][Yuz] = "Null";
                 panel[Xuz][offset] = "Player";
@@ -133,13 +161,13 @@ public class GameField extends JPanel implements ActionListener {
             }
         }
     }
-    class Controls extends KeyAdapter { //Управление
+    class Controls extends KeyAdapter { //Читает кнопички
         @Override
         public void keyPressed(KeyEvent e) {
             super.keyPressed(e);
             int key = e.getKeyCode();
             if (key == KeyEvent.VK_LEFT) {
-                System.out.println("Влево");
+                //System.out.println("Влево");
                 left = true;
                 up = false;
                 down = false;
@@ -147,7 +175,7 @@ public class GameField extends JPanel implements ActionListener {
                 move();
             }
             if (key == KeyEvent.VK_DOWN) {
-                System.out.println("Вниз");
+                //System.out.println("Вниз");
                 down = true;
                 right = false;
                 left = false;
@@ -155,7 +183,7 @@ public class GameField extends JPanel implements ActionListener {
                 move();
             }
             if (key == KeyEvent.VK_UP) {
-                System.out.println("Вверх");
+                //System.out.println("Вверх");
                 left = false;
                 up = true;
                 right = false;
@@ -163,7 +191,7 @@ public class GameField extends JPanel implements ActionListener {
                 move();
             }
             if (key == KeyEvent.VK_RIGHT) {
-                System.out.println("Вправо");
+                //System.out.println("Вправо");
                 right = true;
                 up = false;
                 down = false;
